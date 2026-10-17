@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A hang for you</title>
+<meta name="description" content="See a hang a friend sent you.">
+<meta name="color-scheme" content="light dark">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="../../assets/img/lets-hang-icon.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body>
+<a href="#main" class="wrap" style="position:absolute;left:-999px">Skip to content</a>
+<header class="top"><div class="wrap">
+<a class="brand" href="../../index.html"><img src="../../assets/img/myi-mark.png" alt=""><span><span class="myi">My<span class="i">I</span></span></span></a>
+<nav aria-label="Let's Hang"><a href="../../lets-hang/">Let's Hang</a><a href="../../lets-hang/faq.html">FAQ</a><a href="../../lets-hang/support.html">Support</a><a href="../../press/">Press</a></nav>
+</div></header>
+<main id="main" class="wrap">
+<h1>A hang for you</h1>
+<div id="hang" class="card" aria-live="polite"><p>Loading the hang…</p></div>
+<p><a class="cta soon" href="../" >Get Let's Hang (coming soon)</a></p>
+<p style="color:var(--muted);font-size:14px">This page reads the hang from the link itself, in your browser. Nothing is sent to a server.</p>
+<noscript><p>Turn on JavaScript to see the hang details.</p></noscript>
+<script>
+function renderHang(){
+  var box=document.getElementById('hang');
+  function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+  var raw=location.hash.slice(1);
+  if(!raw){box.innerHTML='<p>This link doesn\'t include a hang. Ask your friend to send it again.</p>';return;}
+  var p=new URLSearchParams(raw);
+  // Surprise hangs: only the teaser (decoy) message, never the real plan.
+  if(p.get('sf')!==null||p.get('m')!==null){box.innerHTML='<h3>Something is being planned</h3><p>'+esc((p.get('m')||'Keep the date free!').slice(0,120))+'</p>';return;}
+  var places=p.getAll('p').slice(0,5).map(function(v){var parts=v.split(',');return parts.slice(2).join(',');}).filter(Boolean);
+  var t=parseInt(p.get('t')||'',10);
+  var when=isNaN(t)?'Time to be decided':new Date(t*1000).toLocaleString(undefined,{weekday:'long',day:'numeric',month:'long',hour:'numeric',minute:'2-digit'});
+  var types={f:'Friends hang',fe:'Family event',b:'Birthday',bk:'Book club',mv:'Movie night',fd:'Food and drinks',od:'Outdoors',c:'Hang'};
+  var type=types[p.get('ty')]||'Hang';
+  if(p.get('ty')==='c'&&p.get('tn'))type=p.get('tn').slice(0,30);
+  var html='<span class="badge built">'+esc(type)+'</span>';
+  if(places.length>1){html+='<h3>Vote on the place</h3><ul>'+places.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul>';}
+  else if(places.length===1){html+='<h3>'+esc(places[0])+'</h3>';}
+  html+='<p>'+esc(when)+'</p>';
+  var q=p.get('q');if(q){html+='<p><strong>'+esc(q.slice(0,60))+'</strong> '+p.getAll('c').slice(0,5).map(esc).join(' · ')+'</p>';}
+  html+='<p style="font-size:14px">To vote or say you\'re coming, open the card in Messages with Let\'s Hang on your iPhone.</p>';
+  box.innerHTML=html; // never shows locations, arrivals, notes or anything private
+}
+renderHang();
+window.addEventListener('hashchange', renderHang);   // a new link in the same tab re-reads the hang
+</script>
+</main>
+<footer><div class="wrap"><span>A <span class="myi">My<span class="i">I</span></span> app · © 2026 MyI. All rights reserved.</span>
+<span><a href="../../lets-hang/privacy.html">Privacy</a> · <a href="../../lets-hang/terms.html">Terms</a> · <a href="../../lets-hang/support.html">Support</a></span></div>
+<div class="wrap" style="margin-top:8px;font-size:12.5px">Let's Hang works with Messages on iPhone. iPhone and Messages are trademarks of Apple Inc. MyI is not affiliated with Apple.</div></footer>
+</body>
+</html>

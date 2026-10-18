@@ -47,3 +47,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .myi{font-family:var(--fr);font-weight:800}
 .myi .i{color:var(--amber)}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+
+.apps{display:grid;gap:16px}
+.app .apphead{display:flex;gap:16px;align-items:center;margin-bottom:6px}
+.app .apphead img{border-radius:18px;flex:none}
+.app h3{margin:0;font-size:22px}
+.app .tag{margin:2px 0 0;font-weight:600;color:var(--ink)}
+.app .feats{margin:10px 0 4px;padding-inline-start:20px;color:var(--muted)}
+.app .feats li{margin:4px 0}
+.app .feats strong{color:var(--ink)}
+.jump{font-size:14px}
